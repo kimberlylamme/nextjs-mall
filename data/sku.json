@@ -1,0 +1,52 @@
+[
+  {
+    "skuId": 1,
+    "skuName": "颜色",
+    "childs": [
+      {
+        "itemId": 1,
+        "itemName": "黑色"
+      },
+      {
+        "itemId": 2,
+        "itemName": "白色"
+      },
+      {
+        "itemId": 3,
+        "itemName": "灰色"
+      }
+    ]
+  },
+  {
+    "skuId": 2,
+    "skuName": "尺码",
+    "childs": [
+      {
+        "itemId": 4,
+        "itemName": "S码"
+      },
+      {
+        "itemId": 5,
+        "itemName": "M码"
+      },
+      {
+        "itemId": 6,
+        "itemName": "L码"
+      }
+    ]
+  },
+  {
+    "skuId": 3,
+    "skuName": "款式",
+    "childs": [
+      {
+        "itemId": 7,
+        "itemName": "短款"
+      },
+      {
+        "itemId": 8,
+        "itemName": "长款"
+      }
+    ]
+  }
+]

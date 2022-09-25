@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "活動一",
+    "image": "/images/banners/1.jpeg"
+  },
+  {
+    "id": 2,
+    "title": "活動二",
+    "image": "/images/banners/2.jpeg"
+  },
+  {
+    "id": 3,
+    "title": "活動三",
+    "image": "/images/banners/3.jpeg"
+  }
+]

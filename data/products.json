@@ -1,0 +1,302 @@
+[
+  {
+    "goodsId": 1,
+    "image": "/images/goods/1.webp",
+    "images": ["/images/goods/1-1.webp", "/images/goods/1-2.webp"],
+    "goodsName": "zion narrows cozy socks",
+    "price": "99.99",
+    "marketPrice": "200.00",
+    "sales": "10",
+    "stock": 1000,
+    "skuTrees": [
+      {
+        "id": 1,
+        "name": "颜色",
+        "childs": [
+          {
+            "itemId": 1,
+            "name": "黑色"
+          },
+          {
+            "itemId": 2,
+            "name": "白色"
+          },
+          {
+            "itemId": 3,
+            "name": "灰色"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "尺码",
+        "childs": [
+          {
+            "itemId": 4,
+            "name": "S码"
+          },
+          {
+            "itemId": 5,
+            "name": "M码"
+          },
+          {
+            "itemId": 6,
+            "name": "L码"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "款式",
+        "childs": [
+          {
+            "itemId": 7,
+            "name": "短款"
+          },
+          {
+            "itemId": 8,
+            "name": "长款"
+          }
+        ]
+      }
+    ],
+    "skus": [
+      {
+        "skuId": 1,
+        "key": { "1": 1, "2": 4, "3": 7 },
+        "name": "黑色 S码 短款",
+        "price": "119.99",
+        "stock": 100,
+        "image": "/images/goods/1-1.webp"
+      },
+      {
+        "skuId": 2,
+        "key": { "1": 2, "2": 4, "3": 7 },
+        "name": "白色 S码 短款",
+        "price": "119.99",
+        "stock": 100,
+        "image": "/images/goods/1-2.webp"
+      },
+      {
+        "skuId": 3,
+        "key": { "1": 3, "2": 4, "3": 7 },
+        "name": "灰色 S码 短款",
+        "price": "119.99",
+        "stock": 100,
+        "image": "/images/goods/1-1.webp"
+      },
+      {
+        "skuId": 4,
+        "key": { "1": 1, "2": 4, "3": 8 },
+        "name": "黑色 S码 长款",
+        "price": "119.99",
+        "stock": 100,
+        "image": "/images/goods/1-2.webp"
+      },
+      {
+        "skuId": 5,
+        "key": { "1": 1, "2": 5, "3": 7 },
+        "name": "黑色 M码 短款",
+        "price": "119.99",
+        "stock": 100,
+        "image": "/images/goods/1-1.webp"
+      },
+      {
+        "skuId": 6,
+        "key": { "1": 2, "2": 5, "3": 7 },
+        "name": "白色 M码 短款",
+        "price": "119.99",
+        "stock": 100,
+        "image": "/images/goods/1.webp"
+      }
+    ]
+  },
+  {
+    "goodsId": 2,
+    "image": "/images/goods/2.webp",
+    "images": [],
+    "goodsName": "yellowstone geysers cozy socks",
+    "price": "99.99",
+    "marketPrice": "200.00",
+    "sales": "10",
+    "stock": 1000,
+    "skuTrees": [
+      {
+        "id": 1,
+        "name": "颜色",
+        "childs": [
+          {
+            "itemId": 1,
+            "name": "黑色"
+          },
+          {
+            "itemId": 2,
+            "name": "白色"
+          },
+          {
+            "itemId": 3,
+            "name": "灰色"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "尺码",
+        "childs": [
+          {
+            "itemId": 4,
+            "name": "S码"
+          },
+          {
+            "itemId": 5,
+            "name": "M码"
+          },
+          {
+            "itemId": 6,
+            "name": "L码"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "款式",
+        "childs": [
+          {
+            "itemId": 7,
+            "name": "短款"
+          },
+          {
+            "itemId": 8,
+            "name": "长款"
+          }
+        ]
+      }
+    ],
+    "skus": [
+      {
+        "skuId": 7,
+        "key": { "1": 1, "2": 4, "3": 7 },
+        "name": "黑色 S码 短款",
+        "price": "119.99",
+        "stock": 100,
+        "image": "/images/goods/2-1.webp"
+      },
+      {
+        "skuId": 8,
+        "key": { "1": 2, "2": 4, "3": 7 },
+        "name": "白色 S码 短款",
+        "price": "119.99",
+        "stock": 100,
+        "image": "/images/goods/2-2.webp"
+      }
+    ]
+  },
+  {
+    "goodsId": 3,
+    "image": "/images/goods/3.webp",
+    "images": [],
+    "goodsName": "yellowstone geysers intarsia beanie",
+    "price": "159.99",
+    "marketPrice": "299.00",
+    "sales": "20",
+    "stock": 1000,
+    "skuTrees": [],
+    "skus": []
+  },
+  {
+    "goodsId": 4,
+    "image": "/images/goods/4.webp",
+    "images": [],
+    "goodsName": "yellowstone geysers trail sherpa",
+    "price": "200.99",
+    "marketPrice": "299.00",
+    "sales": "50",
+    "stock": 1000,
+    "skuTrees": [],
+    "skus": []
+  },
+  {
+    "goodsId": 5,
+    "image": "/images/goods/5.webp",
+    "images": [],
+    "goodsName": "yellowstone geysers sherpa fanny pack",
+    "price": "119.99",
+    "marketPrice": "200.00",
+    "sales": "1",
+    "stock": 1000,
+    "skuTrees": [],
+    "skus": []
+  },
+  {
+    "goodsId": 6,
+    "image": "/images/goods/6.webp",
+    "images": [],
+    "goodsName": "zion narrows recycled camp blanket",
+    "price": "89.99",
+    "marketPrice": "100.00",
+    "sales": "5",
+    "stock": 1000,
+    "skuTrees": [],
+    "skus": []
+  },
+  {
+    "goodsId": 7,
+    "image": "/images/goods/7.webp",
+    "images": [],
+    "goodsName": "zion narrows recycled camp blanket",
+    "price": "89.99",
+    "marketPrice": "100.00",
+    "sales": "5",
+    "stock": 1000,
+    "skuTrees": [],
+    "skus": []
+  },
+  {
+    "goodsId": 8,
+    "image": "/images/goods/8.webp",
+    "images": [],
+    "goodsName": "zion narrows recycled camp blanket",
+    "price": "89.99",
+    "marketPrice": "100.00",
+    "sales": "5",
+    "stock": 1000,
+    "skuTrees": [],
+    "skus": []
+  },
+  {
+    "goodsId": 9,
+    "image": "/images/goods/9.webp",
+    "images": [],
+    "goodsName": "zion narrows recycled camp blanket",
+    "price": "89.99",
+    "marketPrice": "100.00",
+    "sales": "5",
+    "stock": 1000,
+    "skuTrees": [],
+    "skus": []
+  },
+  {
+    "goodsId": 10,
+    "image": "/images/goods/10.webp",
+    "images": [],
+    "goodsName": "zion narrows recycled camp blanket",
+    "price": "89.99",
+    "marketPrice": "100.00",
+    "sales": "5",
+    "stock": 1000,
+    "skuTrees": [],
+    "skus": []
+  },
+  {
+    "goodsId": 11,
+    "image": "/images/goods/11.webp",
+    "images": [],
+    "goodsName": "zion narrows recycled camp blanket",
+    "price": "89.99",
+    "marketPrice": "100.00",
+    "sales": "5",
+    "stock": 1000,
+    "skuTrees": [],
+    "skus": []
+  }
+]
