@@ -3,14 +3,15 @@ import type { AppProps } from 'next/app'
 import Layout from '../components/layout'
 import GoodsProvides from '../pages/goods/components/goodsProvides'
 import { Provider } from 'react-redux'
-import store from '../app/store'
+import { wrapper } from '../app/store'
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, ...rest }: AppProps) {
+  const { store, props } = wrapper.useWrappedStore(rest)
   return (
     <Provider store={store}>
       <Layout>
         <GoodsProvides>
-          <Component {...pageProps} />
+          <Component {...props.pageProps} />
         </GoodsProvides>
       </Layout>
     </Provider>

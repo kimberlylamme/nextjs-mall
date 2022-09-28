@@ -3,7 +3,7 @@ import { AppState } from '../app/store'
 
 // 轮播图
 export const fetchAd = createAsyncThunk('home/fetchAd', async () => {
-  const url = '/api/banner'
+  const url = 'http://localhost:3000/api/banner'
   const res = await fetch(url)
   return res.json()
 })

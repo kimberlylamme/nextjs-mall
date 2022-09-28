@@ -5,14 +5,15 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import Sku from './components/sku'
 import useGoods from '../../components/useGoods'
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
-import { fetchAllProducts, fetchProductInfo, storeProductInfo } from '../../features/productSlice'
+import { fetchProductInfo, fetchProducts, storeProductInfo } from '../../features/productSlice'
 import { Product } from '../../interfaces/goods'
 import Image from 'next/image'
+import { wrapper } from '../../app/store'
 
-const Detail = () => {
+const Detail = ({ products }: { products: Product[] }) => {
   const router = useRouter()
   const id = router.query.id ? Number(router.query.id) : 0
   const dispatch = useAppDispatch()
@@ -31,9 +32,9 @@ const Detail = () => {
   const product: Product = useAppSelector(storeProductInfo)
 
   useEffect(() => {
-    dispatch(fetchAllProducts())
-    dispatch(fetchProductInfo({ goodsId: id }))
-  }, [dispatch, id])
+    if (!products || products.length === 0) return
+    dispatch(fetchProductInfo({ products: products, goodsId: id }))
+  }, [dispatch, id, products])
 
   useEffect(() => {
     if (product && Object.keys(product).length > 0) {
@@ -121,7 +122,7 @@ const Detail = () => {
         </div>
       </div>
 
-      <Sku goodsId={product?.goodsId} />
+      <Sku products={products} goodsId={product?.goodsId} />
 
       <div className="mt-2 mb-16 rounded-t-xl bg-white">
         {/* <div dangerouslySetInnerHTML={{ __html: good?.goods_content }}></div> */}
@@ -131,4 +132,12 @@ const Detail = () => {
     </div>
   )
 }
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  await store.dispatch(fetchProducts())
+  return {
+    props: {
+      products: store.getState().products.products,
+    },
+  }
+})
 export default Detail

@@ -5,7 +5,7 @@ export interface Cart {
   selected: number
 }
 
-export interface cartProduct {
+export interface CartProduct {
   count: number
   goodsId: number
   goodsName: string

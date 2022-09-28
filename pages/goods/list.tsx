@@ -7,9 +7,15 @@ import { useRef } from 'react'
 import Toolbal from './components/toolbar'
 import { useRouter } from 'next/router'
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
-import { fetchProducts, storeProducts, isLoad } from '../../features/productSlice'
+import {
+  fetchProducts,
+  fetchFilterProducts,
+  storeFilterProducts,
+  isLoad,
+} from '../../features/productSlice'
+import { wrapper } from '../../app/store'
 
-const Lists = () => {
+const List = ({ products }: { products: Product[] }) => {
   const router = useRouter()
   const q = router.query.q ? (router.query.q as string) : ''
   const containRef = useRef<HTMLDivElement>(null)
@@ -22,13 +28,14 @@ const Lists = () => {
   })
 
   const dispatch = useAppDispatch()
-  const goods: Product[] = useAppSelector(storeProducts)
+  const filterProducts = useAppSelector(storeFilterProducts)
   const isload = useAppSelector((state) => state.products.loading)
 
   useEffect(() => {
+    if (!products || products.length === 0) return
     console.log('product', params.page)
-    dispatch(fetchProducts(params))
-  }, [dispatch, params])
+    dispatch(fetchFilterProducts({ products: products, params: params }))
+  }, [dispatch, params, products])
 
   const onScroll = () => {
     if (isload === false) return
@@ -54,7 +61,7 @@ const Lists = () => {
       <div className="mb-4 rounded-t-lg bg-white">
         <Toolbal
           onSale={(sales) => {
-            setParams({ ...params, page: 1, sales: sales, price: '' })
+            setParams({ ...params, page: 1, sales: sales ? 'down' : '', price: '' })
             dispatch(isLoad())
           }}
           onPrice={(price) => {
@@ -65,7 +72,7 @@ const Lists = () => {
       </div>
       {/* 列表 */}
       <div className={`grid gap-4 ${isVertical ? 'grid-cols-2' : 'grid-cols-1'}`}>
-        {goods?.map((card) => (
+        {filterProducts?.map((card) => (
           <Card key={card.goodsId} isVertical={isVertical} product={card}></Card>
         ))}
         <div className=" fixed bottom-10 right-5 space-y-4">
@@ -80,5 +87,12 @@ const Lists = () => {
     </div>
   )
 }
-
-export default Lists
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  await store.dispatch(fetchProducts())
+  return {
+    props: {
+      products: store.getState().products.products,
+    },
+  }
+})
+export default List

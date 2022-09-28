@@ -3,22 +3,12 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper'
-import { useEffect } from 'react'
-import { adLists, fetchAd } from '../../features/bannerSlice'
-import { useAppSelector, useAppDispatch } from '../../app/hooks'
+import { Banner } from '../../interfaces/banner'
 
-const Carousel = () => {
-  const dispatch = useAppDispatch()
-  const ads = useAppSelector(adLists)
-  const loading = useAppSelector((state) => state.banner.loading)
-
-  useEffect(() => {
-    if (loading) dispatch(fetchAd())
-  }, [loading, dispatch])
-
+const Carousel = ({ ads = [] }: { ads: Banner[] }) => {
   return (
     <>
-      {ads.length > 0 && (
+      {ads?.length > 0 && (
         <Swiper
           modules={[Autoplay, Pagination]}
           spaceBetween={50}

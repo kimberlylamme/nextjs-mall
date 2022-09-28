@@ -1,19 +1,22 @@
-import Search from '../components/search'
-import Card from '../components/card'
-import Carousel from './home/carousel'
-import Nav from './home/nav'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
-import { fetchProducts, storeProducts } from '../features/productSlice'
-import { useAppSelector, useAppDispatch } from '../app/hooks'
-import { Product } from '../interfaces/goods'
+import Link from 'next/link'
 import Image from 'next/image'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import Link from 'next/link'
+import { useAppSelector, useAppDispatch } from '../app/hooks'
+import { fetchProducts, fetchFilterProducts, storeFilterProducts } from '../features/productSlice'
+import { fetchAd } from '../features/bannerSlice'
+import { wrapper } from '../app/store'
+import { Product } from '../interfaces/goods'
+import { Banner } from '../interfaces/banner'
+import Search from '../components/search'
+import Card from '../components/card'
+import Carousel from './home/carousel'
+import Nav from './home/nav'
 
-const Index = () => {
+const Index = ({ adLists, products }: { adLists: Banner[]; products: Product[] }) => {
   const router = useRouter()
   const onSearch = (keyWord: string) => {
     if (!keyWord) {
@@ -23,16 +26,17 @@ const Index = () => {
     }
   }
 
+  const dispatch = useAppDispatch()
+  const filterProducts = useAppSelector(storeFilterProducts)
+  const isload = useAppSelector((state) => state.products.loading)
   const [page, setPage] = useState(1)
   const goodsRef = useRef<HTMLDivElement>(null)
-  const dispatch = useAppDispatch()
-  const isload = useAppSelector((state) => state.products.loading)
-  const goods = useAppSelector(storeProducts)
 
   useEffect(() => {
     console.log('index', page)
-    dispatch(fetchProducts({ page: page }))
-  }, [dispatch, page])
+    if (!products || products?.length === 0) return
+    dispatch(fetchFilterProducts({ products: products, params: { page: page } }))
+  }, [dispatch, page, products])
 
   const onScroll = () => {
     if (isload === false) return
@@ -50,7 +54,7 @@ const Index = () => {
       </div>
 
       {/* 轮播 */}
-      <Carousel />
+      <Carousel ads={adLists} />
 
       {/* 快捷入口 */}
       <Nav />
@@ -61,7 +65,7 @@ const Index = () => {
           <Image src="/active.jpg" layout="fill" alt="促销活动" />
         </div>
         <Swiper slidesPerView={2.5} spaceBetween={16} className="mySwiper bg-gray-100">
-          {goods?.slice(0, 6).map((good: Product) => (
+          {products?.slice(0, 6).map((good: Product) => (
             <SwiperSlide key={good.goodsId}>
               <Card isVertical={true} product={good}></Card>
             </SwiperSlide>
@@ -82,7 +86,7 @@ const Index = () => {
           <hr className="w-20 text-black" />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {goods?.map((good: Product) => (
+          {filterProducts?.map((good: Product) => (
             <Card key={good.goodsId} isVertical={true} product={good}></Card>
           ))}
         </div>
@@ -90,5 +94,15 @@ const Index = () => {
     </div>
   )
 }
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  await store.dispatch(fetchAd())
+  await store.dispatch(fetchProducts())
 
+  return {
+    props: {
+      adLists: store.getState().banner.adLists,
+      products: store.getState().products.products,
+    },
+  }
+})
 export default Index

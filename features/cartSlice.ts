@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AppState } from '../app/store'
-import { Cart, cartProduct } from '../interfaces/carts'
+import { Cart, CartProduct } from '../interfaces/carts'
 import { Product } from '../interfaces/goods'
 
 interface initType {
-  cartList: cartProduct[]
+  cartList: CartProduct[]
   cartListStatus: string
 }
 
@@ -14,27 +14,26 @@ const initalState: initType = {
 }
 
 // 购物车列表
-export const fetchCartList = createAsyncThunk('cart/fetchCartList', async ({}, { getState }) => {
-  const state = getState() as AppState
-  const products = state.products.allProducts
+export const fetchCartList = createAsyncThunk('cart/fetchCartList', async (products: Product[]) => {
+  const copyProducts: Product[] = JSON.parse(JSON.stringify(products))
   const lists = JSON.parse(localStorage.getItem('cart-list') || '[]')
-  if (lists.length > 0) {
-    lists.map((list: any) => {
-      list.goodsName = ''
-      list.image = ''
-      list.price = 0.0
-      const product = products.find((product) => list.goodsId === product.goodsId)
-      if (!product) return list
-      list.goodsName = product.goodsName
-      list.image = product.image
-      list.price = product.price
-      const sku = product.skus?.find((sku) => sku.skuId === list.skuId)
-      if (!sku) return list
-      list.image = sku.image
-      list.price = sku.price
-      return list
-    })
-  }
+  console.log('lists', lists)
+  if (lists.length === 0) return []
+  lists.map((list: any) => {
+    list.goodsName = ''
+    list.image = ''
+    list.price = 0.0
+    const product = copyProducts.find((product) => list.goodsId === product.goodsId)
+    if (!product) return list
+    list.goodsName = product.goodsName
+    list.image = product.image
+    list.price = product.price
+    const sku = product.skus?.find((sku) => sku.skuId === list.skuId)
+    if (!sku) return list
+    list.image = sku.image
+    list.price = sku.price
+    return list
+  })
   return lists
 })
 
@@ -45,13 +44,11 @@ interface paramAddCart {
 }
 export const fetchAddCart = createAsyncThunk(
   'cart/fetchAddCart',
-  async (params: paramAddCart, { getState }) => {
-    const state = getState() as AppState
+  async ({ products, params }: { products: Product[]; params: paramAddCart }) => {
+    const copyProducts: Product[] = JSON.parse(JSON.stringify(products))
     const cartLists = JSON.parse(localStorage.getItem('cart-list') || '[]')
     const copyCartLists = JSON.parse(JSON.stringify(cartLists))
-    const product = state.products.allProducts?.find(
-      (product: Product) => product.goodsId === params.goodsId,
-    )
+    const product = copyProducts?.find((product: Product) => product.goodsId === params.goodsId)
     if (!product) return { code: 0, message: '没有该商品' }
     const sku = product.skus?.find((sku) => sku.skuId === params.skuId)
 
@@ -84,7 +81,7 @@ export const fetchAddCart = createAsyncThunk(
 
 export const fetchUpdateCart = createAsyncThunk(
   'cart/fetchUpdateCart',
-  async (params: cartProduct[]) => {
+  async (params: CartProduct[]) => {
     if (params.length > 0) localStorage.setItem('cart-list', JSON.stringify(params))
     return { code: 1, message: '操作成功' }
   },
@@ -107,7 +104,7 @@ export const fetchDelCart = createAsyncThunk('cart/fetchDelCart', async (params:
 
 export const fetchSelectCart = createAsyncThunk(
   'cart/fetchSelectCart',
-  async (params: cartProduct[]) => {
+  async (params: CartProduct[]) => {
     if (params.length > 0) localStorage.setItem('cart-list', JSON.stringify(params))
     return { code: 1, message: '操作成功' }
   },
@@ -118,14 +115,10 @@ export const cartSlice = createSlice({
   initialState: initalState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchCartList.fulfilled, (state, action) => {
-        state.cartList = action.payload
-        state.cartListStatus = 'sucessed'
-      })
-      .addCase(fetchCartList.rejected, (state) => {
-        state.cartListStatus = 'failed'
-      })
+    builder.addCase(fetchCartList.fulfilled, (state, action) => {
+      state.cartList = action.payload
+      state.cartListStatus = 'sucessed'
+    })
   },
 })
 

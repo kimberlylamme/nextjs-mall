@@ -8,23 +8,24 @@ import {
   fetchSelectCart,
   fetchUpdateCart,
 } from '../../features/cartSlice'
-import { fetchAllProducts } from '../../features/productSlice'
+import { fetchProducts } from '../../features/productSlice'
+import { wrapper } from '../../app/store'
+import { Product } from '../../interfaces/goods'
 
-const Index = () => {
+const Index = ({ products }: { products: Product[] }) => {
   const dispatch = useAppDispatch()
   const cartProducts = useAppSelector(cartList)
-  const cartListStatus = useAppSelector((state) => state.cart.cartListStatus)
   const [selectedAll, setselectedAll] = useState<boolean>(false)
   const [isSelect, setIsSelect] = useState<boolean>(false)
   const [totalPrice, setTotalPrice] = useState<string>('0.00')
-  console.log('cartProducts', cartProducts)
 
   useEffect(() => {
-    dispatch(fetchAllProducts()).then(() => dispatch(fetchCartList()))
-  }, [cartListStatus, dispatch])
+    if (!products || products.length === 0) return
+    dispatch(fetchCartList(products))
+  }, [dispatch, products])
 
   useEffect(() => {
-    if (cartProducts.length === 0) return
+    if (!cartProducts || cartProducts.length === 0) return
     let total: number = 0.0
     let checkAll = true
     let checkCal = false
@@ -48,7 +49,7 @@ const Index = () => {
         item.selected = item.selected === 0 ? 1 : 0
     })
     dispatch(fetchSelectCart(copyCartProducts)).then((res: any) => {
-      if (res.payload.code === 1) dispatch(fetchCartList())
+      if (res.payload.code === 1) dispatch(fetchCartList(products))
     })
   }
 
@@ -58,7 +59,7 @@ const Index = () => {
       item.selected = selectedAll ? 0 : 1
     })
     dispatch(fetchSelectCart(copyCartProducts)).then((res: any) => {
-      if (res.payload.code === 1) dispatch(fetchCartList())
+      if (res.payload.code === 1) dispatch(fetchCartList(products))
     })
   }
 
@@ -89,13 +90,13 @@ const Index = () => {
     }
     product.count = count
     dispatch(fetchUpdateCart(copyProducts)).then((res: any) => {
-      if (res.payload.code === 1) dispatch(fetchCartList())
+      if (res.payload.code === 1) dispatch(fetchCartList(products))
     })
   }
 
   const handleDelCart = (goodsId: number, skuId: number) => {
     dispatch(fetchDelCart({ goodsId, skuId })).then((res: any) => {
-      if (res.payload.code === 1) dispatch(fetchCartList())
+      if (res.payload.code === 1) dispatch(fetchCartList(products))
     })
   }
 
@@ -182,4 +183,12 @@ const Index = () => {
     </div>
   )
 }
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  await store.dispatch(fetchProducts())
+  return {
+    props: {
+      products: store.getState().products.products,
+    },
+  }
+})
 export default Index

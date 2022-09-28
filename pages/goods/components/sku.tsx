@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import useGoods from '../../../components/useGoods'
 import { useAppDispatch } from '../../../app/hooks'
-import { fetchAddCart, fetchCartList } from '../../../features/cartSlice'
+import { fetchAddCart } from '../../../features/cartSlice'
 import Image from 'next/image'
-import { SkuChild, SkuTree, Sku } from '../../../interfaces/goods'
+import { SkuTree, Sku, Product } from '../../../interfaces/goods'
 
-const Sku = ({ goodsId = 0 }: { goodsId: number }) => {
+const Sku = ({ products, goodsId = 0 }: { products: Product[]; goodsId: number }) => {
   const dispatch = useAppDispatch()
   const {
     isShowSku,
@@ -127,7 +127,6 @@ const Sku = ({ goodsId = 0 }: { goodsId: number }) => {
   }
 
   const handleAddCart = () => {
-    console.log('加入购物车')
     const countTree = skuTrees.length
     const skuValue = Object.values(JSON.parse(JSON.stringify(matchSku)))
     const countSku = skuValue.length
@@ -152,12 +151,15 @@ const Sku = ({ goodsId = 0 }: { goodsId: number }) => {
     console.log('购物车', selectSku)
     dispatch(
       fetchAddCart({
-        goodsId: goodsId,
-        skuId: selectSku.skuId,
-        count: selectSku.count,
+        products: products,
+        params: {
+          goodsId: goodsId,
+          skuId: selectSku.skuId,
+          count: selectSku.count,
+        },
       }),
     ).then((res: any) => {
-      if (res.payload.code === 1) dispatch(fetchCartList())
+      console.log(res.payload)
     })
   }
 
@@ -177,7 +179,7 @@ const Sku = ({ goodsId = 0 }: { goodsId: number }) => {
       <div className="absolute bottom-0 z-30 h-2/3 w-full  overflow-y-auto rounded-t-xl bg-white ">
         <div className="w-full px-4">
           <div className="my-5 flex items-end gap-3">
-            <div className=" relative h-20 w-20 bg-blue-500">
+            <div className=" relative h-20 w-20">
               {selectSku.image && <Image src={selectSku.image} alt="" layout="fill" />}
             </div>
             <div>

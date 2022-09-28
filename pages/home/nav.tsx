@@ -2,9 +2,9 @@ import Link from 'next/link'
 
 const NavLists = [
   { img: '', title: '商品', link: '/goods/list' },
-  { img: '', title: '推荐', link: '/goods/list' },
-  { img: '', title: '热销', link: '/goods/list' },
-  { img: '', title: '秒杀', link: '/goods/list' },
+  { img: '', title: '推荐', link: '/' },
+  { img: '', title: '热销', link: '/' },
+  { img: '', title: '秒杀', link: '/' },
 ]
 const Nav = () => {
   return (
